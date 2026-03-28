@@ -1,8 +1,7 @@
 {
   "name": "radar-49-educacao",
   "version": "1.0.0",
-  "description": "Radar de Licitações - 49 Educação com Firecrawl",
-  "type": "module",
+  "description": "Radar de Licitações 49 Educação",
   "dependencies": {
     "@mendable/firecrawl-js": "^1.0.0"
   },
