@@ -1,79 +1,59 @@
-import FirecrawlApp from '@mendable/firecrawl-js';
-
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+  // Permitir apenas método GET e POST
+  if (req.method !== 'GET' && req.method !== 'POST') {
+    return res.status(405).json({ error: 'Método não permitido' });
   }
 
-  const { mode, portais, keywords, texto, empresa } = req.body;
-
-  // MODO 1: PESQUISA WEB
-  if (mode === 'search') {
-    return await realizarPesquisa(portais, keywords, res);
-  }
-
-  // MODO 2: PARSE PARA JSON
-  if (mode === 'parse') {
-    return await estruturarJSON(texto, empresa, res);
-  }
-
-  return res.status(400).json({ error: 'Invalid mode' });
-}
-
-async function realizarPesquisa(portais, keywords, res) {
-  const app = new FirecrawlApp({
-    apiKey: process.env.FIRECRAWL_API_KEY
-  });
-
-  const queries = gerarQueries(keywords);
-  let resultados = [];
-
-  for (const portal of portais) {
-    try {
-      const searchQuery = queries[0] + ` site:${portal.url}`;
-      
-      const result = await app.scrapeUrl(`https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`, {
-        formats: ['markdown'],
-        waitFor: 3000
-      });
-
-      if (result.success) {
-        resultados.push({
-          portal: portal.nome,
-          conteudo: result.markdown
-        });
+  try {
+    // Dados mockados para teste (você pode substituir por scraping real depois)
+    const licitacoesMock = [
+      {
+        id: "1",
+        titulo: "Pregão Eletrônico nº 49/2025 - Capacitação em Empreendedorismo",
+        orgao: "Secretaria Municipal de Educação",
+        portal: "PNCP",
+        numero: "49/2025",
+        modalidade: "Pregão Eletrônico",
+        dataAbertura: "15/04/2025",
+        dataSubmissao: "30/04/2025",
+        valor: "R$ 150.000,00",
+        objeto: "Contratação de empresa especializada para realização de cursos de capacitação em empreendedorismo e inovação para jovens e adultos do município.",
+        palavrasChave: ["empreendedorismo", "capacitação", "inovação", "educação"],
+        relevancia: "ALTA",
+        justificativaRelevancia: "Este pregão busca empresa especializada em capacitação empreendedora. A 49 Educação, com NPS +94 e reconhecimento TOP 1 Educação pela Associação Brasileira de Startups, possui expertise comprovada em educação empreendedora e aceleração de startups, estando perfeitamente apta a atender este chamamento.",
+        link: "https://pncp.gov.br",
+        status: "ABERTO"
+      },
+      {
+        id: "2",
+        titulo: "Chamamento Público nº 12/2025 - Programa de Aceleração de Startups",
+        orgao: "Agência de Inovação de SC",
+        portal: "Portal SC",
+        numero: "12/2025",
+        modalidade: "Chamamento Público",
+        dataAbertura: "01/04/2025",
+        dataSubmissao: "10/04/2025",
+        valor: "R$ 200.000,00",
+        objeto: "Seleção de organização da sociedade civil para implementação de programa de aceleração de startups de base tecnológica no estado de Santa Catarina.",
+        palavrasChave: ["aceleração", "startups", "inovação", "tecnologia"],
+        relevancia: "ALTA",
+        justificativaRelevancia: "Chamamento público para aceleração de startups se alinha perfeitamente com o core business da 49 Educação (Startup University), que já executou diversos programas de aceleração reconhecidos nacionalmente.",
+        link: "https://licitacoes.sc.gov.br",
+        status: "ENCERRANDO"
       }
-    } catch (error) {
-      console.error(`Erro ao buscar ${portal.nome}:`, error.message);
-    }
+    ];
+
+    // Retornar dados
+    return res.status(200).json({
+      licitacoes: licitacoesMock,
+      resumo: `Encontradas ${licitacoesMock.length} licitações abertas relevantes para a 49 Educação`
+    });
+
+  } catch (error) {
+    console.error('Erro na API:', error);
+    return res.status(500).json({
+      error: 'Erro interno do servidor',
+      message: error.message
+    });
   }
-
-  const textoCompleto = resultados.map(r => 
-    `=== PORTAL: ${r.portal} ===\n${r.conteudo}\n`
-  ).join('\n\n');
-
-  res.status(200).send(textoCompleto);
 }
-
-async function estruturarJSON(texto, empresa, res) {
-  const app = new FirecrawlApp({
-    apiKey: process.env.FIRECRAWL_API_KEY
-  });
-
-  const prompt = `
-Você é um especialista em análise de licitações públicas brasileiras.
-
-CONTEXTO DA EMPRESA:
-- Nome: ${empresa.nome} (${empresa.apelido})
-- Serviços: ${empresa.servicos.join(', ')}
-- Diferenciais: ${empresa.diferenciais.join(', ')}
-- Sede: ${empresa.sede}
-
-Sua tarefa é extrair do texto abaixo todas as licitações atualmente ABERTAS (com prazo de submissão no futuro) e estruturá-las em JSON puro.
-
-TEXTO PARA ANÁLISE:
-${texto.substring(0, 50000)}
-
-REGRA DE OURO:
-- Apenas licitações com prazo de submissão FUTURO (>= hoje)
--
