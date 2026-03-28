@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Radar de Licitações · 49 Educação</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
@@ -389,13 +390,7 @@
             { id: 15, nome: "SENAI", url: "https://www.senai.br", ativo: true },
             { id: 16, nome: "ACATE", url: "https://www.acate.com.br", ativo: true },
             { id: 17, nome: "FINEP", url: "https://www.finep.gov.br", ativo: true },
-            { id: 18, nome: "CNPQ", url: "https://www.cnpq.br", ativo: true },
-            { id: 19, nome: "Portal da Transparência", url: "https://portaldatransparencia.gov.br/licitacoes", ativo: true },
-            { id: 20, nome: "BLL Compras", url: "https://www.bll.org.br", ativo: true },
-            { id: 21, nome: "Portal Compras Públicas", url: "https://www.portaldecompraspublicas.com.br", ativo: true },
-            { id: 22, nome: "Alerta Licitação", url: "https://www.alertalicitacao.com.br", ativo: true },
-            { id: 23, nome: "Portal Compras SP", url: "https://compras.sp.gov.br", ativo: true },
-            { id: 24, nome: "Licitar Digital", url: "https://licitar.digital", ativo: true }
+            { id: 18, nome: "CNPQ", url: "https://www.cnpq.br", ativo: true }
         ];
 
         let licitacoes = [];
@@ -587,9 +582,7 @@
                 
                 html += '<div class="licitacao-card" id="card-' + i + '">';
                 html += '<div class="card-header" onclick="toggleCard(' + i + ')">';
-                html += '<h3 class="card-title" onclick="abrirLink(\'' + (l.link || '#') + '\')" style="cursor: pointer; color: var(--laranja); text-decoration: underline;">';
-                html += (l.titulo || 'Licitação sem título');
-                html += '</h3>';
+                html += '<h3 class="card-title">' + (l.titulo || 'Licitação sem título') + '</h3>';
                 html += '<div class="card-meta">';
                 html += '<span>📍 ' + (l.orgao || 'Órgão não informado') + '</span>';
                 html += '<span>🌐 ' + (l.portal || 'Portal não informado') + '</span>';
@@ -659,12 +652,6 @@
         function toggleCard(index) {
             var card = document.getElementById('card-' + index);
             card.classList.toggle('expanded');
-        }
-
-        function abrirLink(url) {
-            if (url && url !== '#') {
-                window.open(url, '_blank');
-            }
         }
 
         function setFilter(filter, btn) {
