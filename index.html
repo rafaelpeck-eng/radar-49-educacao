@@ -172,6 +172,7 @@
             padding: 20px;
             cursor: pointer;
             border-left: 4px solid var(--laranja);
+            position: relative;
         }
         
         .card-header:hover {
@@ -182,6 +183,12 @@
             font-size: 1.2rem;
             margin-bottom: 10px;
             color: var(--laranja);
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        
+        .card-title:hover {
+            color: #FF6A2A;
         }
         
         .card-meta {
@@ -297,6 +304,20 @@
             border-top: 1px solid var(--borda);
             color: var(--texto2);
         }
+        
+        .expand-icon {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 1.5rem;
+            color: var(--texto2);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .card.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
     </style>
 </head>
 <body>
@@ -371,7 +392,6 @@
     </div>
 
     <script>
-        // PORTAIS INICIAIS COM URLS COMPLETAS
         let portais = [
             { id: 1, nome: "PNCP", url: "https://pncp.gov.br", ativo: true },
             { id: 2, nome: "ComprasNet", url: "https://comprasnet.gov.br", ativo: true },
@@ -396,7 +416,6 @@
         let licitacoes = [];
         let currentFilter = 'all';
 
-        // DADOS DA 49 EDUCAÇÃO
         const empresa = {
             nome: "49 Educação",
             servicos: [
@@ -472,7 +491,6 @@
             var url = document.getElementById('newPortalUrl').value.trim();
             
             if (nome && url) {
-                // Adicionar https:// se não tiver
                 if (!url.startsWith('http')) {
                     url = 'https://' + url;
                 }
@@ -583,18 +601,27 @@
                 var badgeClass = l.relevancia === 'ALTA' ? 'badge-high' : (l.relevancia === 'MÉDIA' ? 'badge-medium' : 'badge-low');
                 
                 html += '<div class="licitacao-card" id="card-' + i + '">';
-                html += '<div class="card-header" onclick="toggleCard(' + i + ')">';
-                html += '<h3 class="card-title">' + (l.titulo || 'Licitação sem título') + '</h3>';
+                html += '<div class="card-header">';
+                
+                // Título clicável que abre o link
+                html += '<h3 class="card-title" onclick="abrirLink(\'' + (l.link || '#') + '\')" style="cursor: pointer; color: var(--laranja); text-decoration: underline;">';
+                html += (l.titulo || 'Licitação sem título');
+                html += '</h3>';
+                
                 html += '<div class="card-meta">';
                 html += '<span>📍 ' + (l.orgao || 'Órgão não informado') + '</span>';
                 html += '<span>🌐 ' + (l.portal || 'Portal não informado') + '</span>';
                 if (l.dataSubmissao) html += '<span>📅 ' + l.dataSubmissao + (isUrgent ? ' (⚠️ ' + l.diasRestantes + ' dias)' : '') + '</span>';
                 if (l.valor) html += '<span>💰 ' + l.valor + '</span>';
                 html += '</div>';
+                
                 html += '<div style="margin-top: 10px;">';
                 html += '<span class="badge ' + badgeClass + '">' + (l.relevancia || 'N/A') + '</span>';
                 if (l.status) html += ' <span class="badge" style="background: var(--elementos);">' + l.status + '</span>';
                 html += '</div>';
+                
+                // Ícone de expandir separado
+                html += '<span class="expand-icon" onclick="toggleCard(' + i + ', event)">▼</span>';
                 html += '</div>';
                 
                 html += '<div class="card-content">';
@@ -653,7 +680,16 @@
             container.innerHTML = html;
         }
 
-        function toggleCard(index) {
+        function abrirLink(url) {
+            if (url && url !== '#') {
+                window.open(url, '_blank');
+            }
+        }
+
+        function toggleCard(index, event) {
+            if (event) {
+                event.stopPropagation();
+            }
             var card = document.getElementById('card-' + index);
             card.classList.toggle('expanded');
         }
