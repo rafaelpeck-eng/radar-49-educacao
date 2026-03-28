@@ -371,19 +371,26 @@
     </div>
 
     <script>
-        // PORTAIS INICIAIS (incluindo novos)
+        // PORTAIS INICIAIS COM URLS COMPLETAS
         let portais = [
-            { id: 1, nome: "PNCP", url: "pncp.gov.br", ativo: true },
-            { id: 2, nome: "ComprasNet", url: "comprasnet.gov.br", ativo: true },
-            { id: 3, nome: "BEC/SP", url: "bec.sp.gov.br", ativo: true },
-            { id: 4, nome: "SEBRAE", url: "scf3.sebrae.com.br", ativo: true },
-            { id: 5, nome: "FIESC", url: "fiesc.com.br", ativo: true },
-            { id: 6, nome: "FIERGS", url: "fiergs.org.br", ativo: true },
-            { id: 7, nome: "FAPESC", url: "fapesc.sc.gov.br", ativo: true },
-            { id: 8, nome: "SENAI", url: "senai.br", ativo: true },
-            { id: 9, nome: "ACATE", url: "acate.com.br", ativo: true },
-            { id: 10, nome: "FINEP", url: "finep.gov.br", ativo: true },
-            { id: 11, nome: "CNPQ", url: "cnpq.br", ativo: true }
+            { id: 1, nome: "PNCP", url: "https://pncp.gov.br", ativo: true },
+            { id: 2, nome: "ComprasNet", url: "https://comprasnet.gov.br", ativo: true },
+            { id: 3, nome: "BEC/SP", url: "https://bec.sp.gov.br", ativo: true },
+            { id: 4, nome: "Licitações-e", url: "https://licitacoes-e.com.br", ativo: true },
+            { id: 5, nome: "ComprasBR", url: "https://comprasbrasil.com.br", ativo: true },
+            { id: 6, nome: "Portal MG", url: "https://transparencia.mg.gov.br", ativo: true },
+            { id: 7, nome: "Portal PR", url: "https://compraspr.pr.gov.br", ativo: true },
+            { id: 8, nome: "Portal RS", url: "https://compras.rs.gov.br", ativo: true },
+            { id: 9, nome: "Portal CE", url: "https://licitacoes.ce.gov.br", ativo: true },
+            { id: 10, nome: "Portal RJ", url: "https://licitacoes.rj.gov.br", ativo: true },
+            { id: 11, nome: "SEBRAE SCF", url: "https://www.scf3.sebrae.com.br/PortalCf/Licitacoes", ativo: true },
+            { id: 12, nome: "FAPESC", url: "https://fapesc.sc.gov.br/category/chamadas-abertas", ativo: true },
+            { id: 13, nome: "FIESC", url: "https://portaldecompras.fiesc.com.br/Portal/Mural.aspx", ativo: true },
+            { id: 14, nome: "FIERGS", url: "https://www.fiergs.org.br", ativo: true },
+            { id: 15, nome: "SENAI", url: "https://www.senai.br", ativo: true },
+            { id: 16, nome: "ACATE", url: "https://www.acate.com.br", ativo: true },
+            { id: 17, nome: "FINEP", url: "https://www.finep.gov.br", ativo: true },
+            { id: 18, nome: "CNPQ", url: "https://www.cnpq.br", ativo: true }
         ];
 
         let licitacoes = [];
@@ -465,6 +472,11 @@
             var url = document.getElementById('newPortalUrl').value.trim();
             
             if (nome && url) {
+                // Adicionar https:// se não tiver
+                if (!url.startsWith('http')) {
+                    url = 'https://' + url;
+                }
+                
                 portais.push({
                     id: Date.now(),
                     nome: nome,
