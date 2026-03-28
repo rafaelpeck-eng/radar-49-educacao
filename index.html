@@ -29,3 +29,641 @@
         header {
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--borda);
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-badge {
+            background: var(--laranja);
+            color: white;
+            font-weight: 700;
+            font-size: 1.5rem;
+            padding: 10px 15px;
+            border-radius: 8px;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+        }
+        
+        .logo .subtitle {
+            color: var(--laranja);
+            font-size: 0.9rem;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-secondary {
+            background: var(--elementos);
+            color: var(--texto);
+            border: 1px solid var(--borda);
+        }
+        
+        .config-panel {
+            background: var(--cards);
+            border: 1px solid var(--borda);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            display: none;
+        }
+        
+        .config-panel.active { display: block; }
+        
+        .btn-primary {
+            background: var(--laranja);
+            color: white;
+            padding: 18px 40px;
+            font-size: 1.2rem;
+            border-radius: 12px;
+            font-weight: 700;
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            background: #FF6A2A;
+            transform: scale(1.05);
+        }
+        
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+        
+        .main-action { text-align: center; margin: 40px 0; }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+            display: none;
+        }
+        
+        .stats.active { display: grid; }
+        
+        .stat-card {
+            background: var(--cards);
+            border: 2px solid var(--borda);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            display: block;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--laranja);
+        }
+        
+        .stat-label { color: var(--texto2); font-size: 0.9rem; }
+        
+        .filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+            display: none;
+        }
+        
+        .filters.active { display: flex; }
+        
+        .filter-btn {
+            padding: 10px 20px;
+            background: var(--cards);
+            border: 2px solid var(--borda);
+            color: var(--texto);
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .filter-btn.active {
+            background: var(--laranja);
+            border-color: var(--laranja);
+            color: white;
+        }
+        
+        .results { display: none; flex-direction: column; gap: 20px; }
+        .results.active { display: flex; }
+        
+        .licitacao-card {
+            background: var(--cards);
+            border: 1px solid var(--borda);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            padding: 20px;
+            cursor: pointer;
+            border-left: 4px solid var(--laranja);
+        }
+        
+        .card-header:hover {
+            background: var(--elementos);
+        }
+        
+        .card-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--laranja);
+        }
+        
+        .card-meta {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+            color: var(--texto2);
+        }
+        
+        .badge {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .badge-high { background: var(--laranja); color: white; }
+        .badge-medium { background: #FFA500; color: black; }
+        .badge-low { background: var(--elementos); color: var(--texto2); }
+        
+        .card-content {
+            padding: 0 20px 20px;
+            display: none;
+        }
+        
+        .card.expanded .card-content { display: block; }
+        
+        .justificativa {
+            background: rgba(255, 77, 0, 0.1);
+            border: 2px solid var(--laranja);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .justificativa h4 {
+            color: var(--laranja);
+            margin-bottom: 12px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .info-item {
+            background: var(--elementos);
+            padding: 12px;
+            border-radius: 6px;
+        }
+        
+        .info-label {
+            font-size: 0.8rem;
+            color: var(--texto2);
+            margin-bottom: 4px;
+        }
+        
+        .info-value {
+            font-weight: 600;
+            color: var(--texto);
+        }
+        
+        .btn-view {
+            display: inline-block;
+            padding: 12px 24px;
+            background: var(--laranja);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+        
+        .btn-view:hover {
+            background: #FF6A2A;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--texto2);
+        }
+        
+        .log {
+            background: #0a0a0b;
+            border: 1px solid var(--borda);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: monospace;
+            display: none;
+        }
+        
+        .log.active { display: block; }
+        
+        .portal-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--elementos);
+            padding: 12px 15px;
+            margin: 8px 0;
+            border-radius: 6px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 60px;
+            border-top: 1px solid var(--borda);
+            color: var(--texto2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-badge">49</div>
+                <div>
+                    <h1>RADAR DE LICITAÇÕES</h1>
+                    <div class="subtitle">49 Educação · Startup University</div>
+                </div>
+            </div>
+            <button class="btn btn-secondary" onclick="toggleConfig()">⚙ Configurar Portais</button>
+        </header>
+
+        <div class="config-panel" id="configPanel">
+            <h3>⚙ Portais Monitorados</h3>
+            <div id="portalList"></div>
+            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--borda);">
+                <h4 style="margin-bottom: 10px;">Adicionar Novo Portal</h4>
+                <input type="text" id="newPortalName" placeholder="Nome do portal" style="padding: 10px; margin: 5px; width: 200px; background: var(--elementos); border: 1px solid var(--borda); color: var(--texto); border-radius: 6px;">
+                <input type="text" id="newPortalUrl" placeholder="URL (ex: portal.gov.br)" style="padding: 10px; margin: 5px; width: 300px; background: var(--elementos); border: 1px solid var(--borda); color: var(--texto); border-radius: 6px;">
+                <button class="btn btn-primary" onclick="addPortal()" style="padding: 10px 20px; margin: 5px;">+ Adicionar</button>
+            </div>
+        </div>
+
+        <div class="main-action">
+            <button class="btn btn-primary" id="btnScan" onclick="scanPortals()">
+                🎯 VARRER PORTAIS AGORA
+            </button>
+        </div>
+
+        <div class="log" id="log"></div>
+
+        <div class="stats" id="stats">
+            <div class="stat-card">
+                <span class="stat-number" id="totalFound">0</span>
+                <span class="stat-label">Encontrados</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="highRelevance">0</span>
+                <span class="stat-label">Alta Relevância</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="urgentDays">0</span>
+                <span class="stat-label">Prazo ≤ 7 dias</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="closingSoon">0</span>
+                <span class="stat-label">Encerrando</span>
+            </div>
+        </div>
+
+        <div class="filters" id="filters">
+            <button class="filter-btn active" onclick="setFilter('all', this)">TODOS</button>
+            <button class="filter-btn" onclick="setFilter('high', this)">★ ALTA RELEVÂNCIA</button>
+            <button class="filter-btn" onclick="setFilter('urgent', this)">⚠️ URGENTES (≤7 DIAS)</button>
+            <button class="filter-btn" onclick="setFilter('closing', this)">🔴 ENCERRANDO</button>
+        </div>
+
+        <div class="results" id="results"></div>
+
+        <div class="empty-state" id="emptyState">
+            <h2>🎯 Pronto para vasculhar os portais</h2>
+            <p>Clique em <strong>VARRER PORTAIS AGORA</strong> para encontrar licitações abertas<br>relevantes para a 49 Educação</p>
+        </div>
+
+        <footer>
+            <p><strong>49EDUCAÇÃO</strong> · RADAR DE LICITAÇÕES</p>
+            <p>Powered by Firecrawl + Vercel</p>
+        </footer>
+    </div>
+
+    <script>
+        // PORTAIS INICIAIS (incluindo novos)
+        let portais = [
+            { id: 1, nome: "PNCP", url: "pncp.gov.br", ativo: true },
+            { id: 2, nome: "ComprasNet", url: "comprasnet.gov.br", ativo: true },
+            { id: 3, nome: "BEC/SP", url: "bec.sp.gov.br", ativo: true },
+            { id: 4, nome: "SEBRAE", url: "scf3.sebrae.com.br", ativo: true },
+            { id: 5, nome: "FIESC", url: "fiesc.com.br", ativo: true },
+            { id: 6, nome: "FIERGS", url: "fiergs.org.br", ativo: true },
+            { id: 7, nome: "FAPESC", url: "fapesc.sc.gov.br", ativo: true },
+            { id: 8, nome: "SENAI", url: "senai.br", ativo: true },
+            { id: 9, nome: "ACATE", url: "acate.com.br", ativo: true },
+            { id: 10, nome: "FINEP", url: "finep.gov.br", ativo: true },
+            { id: 11, nome: "CNPQ", url: "cnpq.br", ativo: true }
+        ];
+
+        let licitacoes = [];
+        let currentFilter = 'all';
+
+        // DADOS DA 49 EDUCAÇÃO
+        const empresa = {
+            nome: "49 Educação",
+            servicos: [
+                "educação empreendedora",
+                "aceleração de startups",
+                "capacitação profissional em inovação",
+                "mentorias",
+                "workshops de IA",
+                "formação de founders",
+                "ecossistemas de startups",
+                "inovação corporativa"
+            ],
+            cases: [
+                "Empregga Tecnologia",
+                "Realize Educação",
+                "Meliva.ia",
+                "Certificafé",
+                "Societário Digital",
+                "Reuso Recicla+",
+                "Serodonto",
+                "ArchTechTour",
+                "Flash Menu",
+                "Gerencit",
+                "Captei",
+                "Ottimizza",
+                "Fifty Fifty Drinks",
+                "Éleme",
+                "Instituto Visão",
+                "Prototipando a Quebrada"
+            ],
+            diferenciais: [
+                "NPS +94",
+                "TOP 1 Educação (ABStartups)",
+                "+5.000 startups capacitadas",
+                "+R$ 1 bilhão em valuation gerado",
+                "Metodologia Startup University"
+            ]
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderPortais();
+        });
+
+        function toggleConfig() {
+            var panel = document.getElementById('configPanel');
+            panel.classList.toggle('active');
+        }
+
+        function renderPortais() {
+            var list = document.getElementById('portalList');
+            var html = '';
+            for (var i = 0; i < portais.length; i++) {
+                var p = portais[i];
+                html += '<div class="portal-item">';
+                html += '<div><strong>' + p.nome + '</strong><br><small style="color: var(--texto2);">' + p.url + '</small></div>';
+                html += '<label><input type="checkbox" ' + (p.ativo ? 'checked' : '') + ' onchange="togglePortal(' + p.id + ')"> Ativo</label>';
+                html += '</div>';
+            }
+            list.innerHTML = html;
+        }
+
+        function togglePortal(id) {
+            for (var i = 0; i < portais.length; i++) {
+                if (portais[i].id === id) {
+                    portais[i].ativo = !portais[i].ativo;
+                    break;
+                }
+            }
+        }
+
+        function addPortal() {
+            var nome = document.getElementById('newPortalName').value.trim();
+            var url = document.getElementById('newPortalUrl').value.trim();
+            
+            if (nome && url) {
+                portais.push({
+                    id: Date.now(),
+                    nome: nome,
+                    url: url,
+                    ativo: true
+                });
+                document.getElementById('newPortalName').value = '';
+                document.getElementById('newPortalUrl').value = '';
+                renderPortais();
+            }
+        }
+
+        async function scanPortals() {
+            var btn = document.getElementById('btnScan');
+            var logDiv = document.getElementById('log');
+            var resultsDiv = document.getElementById('results');
+            var emptyState = document.getElementById('emptyState');
+            var statsDiv = document.getElementById('stats');
+            var filtersDiv = document.getElementById('filters');
+            
+            btn.disabled = true;
+            btn.innerHTML = '🔍 BUSCANDO...';
+            logDiv.classList.add('active');
+            logDiv.innerHTML = '<div style="color: var(--laranja);">[1/2] Iniciando busca nos portais...</div>';
+            emptyState.style.display = 'none';
+            
+            try {
+                var response = await fetch('/api/scan', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        portais: portais.filter(function(p) { return p.ativo; }),
+                        empresa: empresa
+                    })
+                });
+                
+                var data = await response.json();
+                
+                logDiv.innerHTML += '<div style="color: var(--verde);">[2/2] ✓ Busca concluída! ' + data.licitacoes.length + ' editais encontrados</div>';
+                
+                licitacoes = data.licitacoes || [];
+                
+                if (licitacoes.length === 0) {
+                    resultsDiv.classList.remove('active');
+                    emptyState.style.display = 'block';
+                    emptyState.innerHTML = '<h2>📭 Nenhuma licitação encontrada</h2><p>Tente novamente mais tarde ou verifique os portais ativos</p>';
+                } else {
+                    updateStats();
+                    renderResults();
+                    statsDiv.classList.add('active');
+                    filtersDiv.classList.add('active');
+                    resultsDiv.classList.add('active');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                logDiv.innerHTML += '<div style="color: var(--vermelho);">❌ Erro: ' + error.message + '</div>';
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '🎯 VARRER PORTAIS AGORA';
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('totalFound').textContent = licitacoes.length;
+            
+            var highCount = 0;
+            var urgentCount = 0;
+            var closingCount = 0;
+            
+            for (var i = 0; i < licitacoes.length; i++) {
+                var l = licitacoes[i];
+                if (l.relevancia === 'ALTA') highCount++;
+                if (l.status === 'ENCERRANDO') closingCount++;
+                if (l.diasRestantes && l.diasRestantes <= 7) urgentCount++;
+            }
+            
+            document.getElementById('highRelevance').textContent = highCount;
+            document.getElementById('urgentDays').textContent = urgentCount;
+            document.getElementById('closingSoon').textContent = closingCount;
+        }
+
+        function renderResults() {
+            var container = document.getElementById('results');
+            var html = '';
+            
+            var filtered = licitacoes;
+            if (currentFilter === 'high') {
+                filtered = [];
+                for (var i = 0; i < licitacoes.length; i++) {
+                    if (licitacoes[i].relevancia === 'ALTA') {
+                        filtered.push(licitacoes[i]);
+                    }
+                }
+            }
+            
+            if (filtered.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 40px; color: var(--texto2);">Nenhuma licitação para este filtro</div>';
+                return;
+            }
+            
+            for (var i = 0; i < filtered.length; i++) {
+                var l = filtered[i];
+                var isUrgent = l.diasRestantes && l.diasRestantes <= 7;
+                var badgeClass = l.relevancia === 'ALTA' ? 'badge-high' : (l.relevancia === 'MÉDIA' ? 'badge-medium' : 'badge-low');
+                
+                html += '<div class="licitacao-card" id="card-' + i + '">';
+                html += '<div class="card-header" onclick="toggleCard(' + i + ')">';
+                html += '<h3 class="card-title">' + (l.titulo || 'Licitação sem título') + '</h3>';
+                html += '<div class="card-meta">';
+                html += '<span>📍 ' + (l.orgao || 'Órgão não informado') + '</span>';
+                html += '<span>🌐 ' + (l.portal || 'Portal não informado') + '</span>';
+                if (l.dataSubmissao) html += '<span>📅 ' + l.dataSubmissao + (isUrgent ? ' (⚠️ ' + l.diasRestantes + ' dias)' : '') + '</span>';
+                if (l.valor) html += '<span>💰 ' + l.valor + '</span>';
+                html += '</div>';
+                html += '<div style="margin-top: 10px;">';
+                html += '<span class="badge ' + badgeClass + '">' + (l.relevancia || 'N/A') + '</span>';
+                if (l.status) html += ' <span class="badge" style="background: var(--elementos);">' + l.status + '</span>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="card-content">';
+                
+                // JUSTIFICATIVA PERSONALIZADA
+                html += '<div class="justificativa">';
+                html += '<h4>✅ Por que a 49 Educação pode participar</h4>';
+                html += '<p>' + (l.justificativaRelevancia || gerarJustificativa(l)) + '</p>';
+                html += '</div>';
+                
+                // DETALHES
+                html += '<div class="info-grid">';
+                if (l.modalidade) {
+                    html += '<div class="info-item">';
+                    html += '<div class="info-label">Modalidade</div>';
+                    html += '<div class="info-value">' + l.modalidade + '</div>';
+                    html += '</div>';
+                }
+                if (l.numero) {
+                    html += '<div class="info-item">';
+                    html += '<div class="info-label">Número</div>';
+                    html += '<div class="info-value">' + l.numero + '</div>';
+                    html += '</div>';
+                }
+                if (l.dataAbertura) {
+                    html += '<div class="info-item">';
+                    html += '<div class="info-label">Data de Abertura</div>';
+                    html += '<div class="info-value">' + l.dataAbertura + '</div>';
+                    html += '</div>';
+                }
+                if (l.dataSubmissao) {
+                    html += '<div class="info-item">';
+                    html += '<div class="info-label">Prazo de Submissão</div>';
+                    html += '<div class="info-value" style="color: ' + (isUrgent ? 'var(--vermelho)' : 'inherit') + ';">';
+                    html += l.dataSubmissao + (isUrgent ? ' (' + l.diasRestantes + ' dias restantes)' : '');
+                    html += '</div>';
+                    html += '</div>';
+                }
+                html += '</div>';
+                
+                if (l.objeto) {
+                    html += '<div style="margin: 20px 0;">';
+                    html += '<h4 style="color: var(--laranja); margin-bottom: 10px;">📋 Objeto</h4>';
+                    html += '<p>' + l.objeto + '</p>';
+                    html += '</div>';
+                }
+                
+                if (l.link) {
+                    html += '<a href="' + l.link + '" target="_blank" class="btn-view">→ Acessar Edital Completo</a>';
+                }
+                
+                html += '</div>';
+                html += '</div>';
+            }
+            
+            container.innerHTML = html;
+        }
+
+        function toggleCard(index) {
+            var card = document.getElementById('card-' + index);
+            card.classList.toggle('expanded');
+        }
+
+        function setFilter(filter, btn) {
+            currentFilter = filter;
+            
+            var buttons = document.querySelectorAll('.filter-btn');
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('active');
+            }
+            btn.classList.add('active');
+            
+            renderResults();
+        }
+
+        function gerarJustificativa(licitacao) {
+            var caseAleatorio = empresa.cases[Math.floor(Math.random() * empresa.cases.length)];
+            var servicoAleatorio = empresa.servicos[Math.floor(Math.random() * empresa.servicos.length)];
+            
+            return 'Este ' + (licitacao.modalidade || 'edital') + ' busca ' + (licitacao.objeto ? 'serviços relacionados a ' + licitacao.objeto.substring(0, 100) : 'soluções em educação e inovação') + '. A 49 Educação, com ' + empresa.diferenciais[0] + ' e reconhecimento ' + empresa.diferenciais[1] + ', possui experiência comprovada em ' + servicoAleatorio + ', tendo acelerado empresas como ' + caseAleatorio + '. A metodologia Startup University e o portfolio de +5.000 startups capacitadas demonstram a capacidade técnica para atender este chamamento com excelência.';
+        }
+    </script>
+</body>
+</html>
