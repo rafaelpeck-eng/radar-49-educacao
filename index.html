@@ -395,6 +395,15 @@
 
         const empresa = {
             nome: "49 Educação",
+            cnpj: "35.611.694/0001-88",
+            fundador: "Leandro Piazza dos Santos",
+            metodologia: "Startup University (Biblioteca Nacional nº 888.433)",
+            nps: "+94",
+            premio: "TOP 1 Educação (ABStartups)",
+            startupsCapacitadas: "+5.000",
+            startupsCatarinenses: "+1.200 desde 2023",
+            valuationGerado: "+R$ 1 bilhão",
+            reconhecimentos: "Moção Oficial ALESC (RQS/1255/2025)",
             servicos: [
                 "educação empreendedora",
                 "aceleração de startups",
@@ -406,6 +415,7 @@
                 "inovação corporativa"
             ],
             cases: [
+                "Taskdo (exit Invent Software 2024)",
                 "Empregga Tecnologia",
                 "Realize Educação",
                 "Meliva.ia",
@@ -421,15 +431,18 @@
                 "Fifty Fifty Drinks",
                 "Éleme",
                 "Instituto Visão",
-                "Prototipando a Quebrada"
+                "Prototipando a Quebrada",
+                "Aleve Legaltech Ventures"
             ],
-            diferenciais: [
-                "NPS +94",
-                "TOP 1 Educação (ABStartups)",
-                "+5.000 startups capacitadas",
-                "+R$ 1 bilhão em valuation gerado",
-                "Metodologia Startup University"
-            ]
+            programas: [
+                { nome: "Startup University", startups: "+5.000", periodo: "2020-2025" },
+                { nome: "Jornada Startups", startups: "+600", parceiro: "ACATE, SEBRAE/SC", periodo: "2022-2025" },
+                { nome: "Programa Nascer", startups: "+800", parceiro: "FAPESC, SEBRAE/SC", periodo: "2020-2024" },
+                { nome: "BRDE Labs SC", startups: "+120", parceiro: "BRDE, SEBRAE", periodo: "2023-2025" },
+                { nome: "Prêmio Sebrae Startups", startups: "+1.000", parceiro: "SEBRAE Nacional", periodo: "2022-2024" },
+                { nome: "Start Primeiras Vendas", startups: "150", periodo: "2025" }
+            ],
+            parceiros: ["SEBRAE/SC", "FAPESC", "ACATE", "BRDE", "SCTI"]
         };
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -554,16 +567,16 @@
         }
 
         function gerarJustificativaPersonalizada(licitacao) {
-            var caseAleatorio = empresa.cases[Math.floor(Math.random() * empresa.cases.length)];
+            var caseAleatorio = empresa.cases[Math.floor(Math.random() * Math.min(5, empresa.cases.length))];
             var programaAleatorio = empresa.programas[Math.floor(Math.random() * empresa.programas.length)];
             
             var justificativa = 'Este ' + (licitacao.modalidade || 'edital') + ' busca ' + (licitacao.objeto ? 'serviços relacionados a ' + licitacao.objeto.substring(0, 80) : 'soluções em educação e inovação') + '. ';
             
-            justificativa += 'A ' + empresa.nome + ', com ' + empresa.diferenciais[0] + ' e reconhecimento ' + empresa.diferenciais[1] + ', possui experiência comprovada através da metodologia ' + empresa.metodologia + ' (livro registrado na Biblioteca Nacional nº 888.433). ';
+            justificativa += 'A ' + empresa.nome + ', com ' + empresa.nps + ' e reconhecimento ' + empresa.premio + ', possui experiência comprovada através da metodologia ' + empresa.metodologia + '. ';
             
             justificativa += 'A empresa já capacitou ' + empresa.startupsCapacitadas + ' startups no Brasil, sendo ' + empresa.startupsCatarinenses + ' em Santa Catarina desde 2023, através de programas como ' + programaAleatorio.nome + ' (' + programaAleatorio.startups + ' startups impactadas). ';
             
-            justificativa += 'Cases de sucesso incluem ' + caseAleatorio.nome + ' (' + caseAleatorio.destaque + '), demonstrando capacidade técnica para atender este chamamento com excelência e gerar ' + empresa.valuationGerado + ' em valuation para o ecossistema.';
+            justificativa += 'Cases de sucesso incluem ' + caseAleatorio + ', demonstrando capacidade técnica para atender este chamamento com excelência e gerar ' + empresa.valuationGerado + ' em valuation para o ecossistema.';
             
             return justificativa;
         }
