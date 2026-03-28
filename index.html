@@ -88,4 +88,337 @@
         .config-panel.active { display: block; }
         
         .btn-primary {
-            background
+            background: var(--laranja);
+            color: white;
+            padding: 18px 40px;
+            font-size: 1.2rem;
+            border-radius: 12px;
+            font-weight: 700;
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            background: #FF6A2A;
+            transform: scale(1.05);
+        }
+        
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+        
+        .main-action { text-align: center; margin: 40px 0; }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+            display: none;
+        }
+        
+        .stats.active { display: grid; }
+        
+        .stat-card {
+            background: var(--cards);
+            border: 2px solid var(--borda);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            display: block;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--laranja);
+        }
+        
+        .stat-label { color: var(--texto2); font-size: 0.9rem; }
+        
+        .filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+            display: none;
+        }
+        
+        .filters.active { display: flex; }
+        
+        .filter-btn {
+            padding: 10px 20px;
+            background: var(--cards);
+            border: 2px solid var(--borda);
+            color: var(--texto);
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .filter-btn.active {
+            background: var(--laranja);
+            border-color: var(--laranja);
+            color: white;
+        }
+        
+        .results { display: none; flex-direction: column; gap: 20px; }
+        .results.active { display: flex; }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--texto2);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 60px;
+            border-top: 1px solid var(--borda);
+            color: var(--texto2);
+        }
+        
+        .log {
+            background: #0a0a0b;
+            border: 1px solid var(--borda);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: monospace;
+            display: none;
+        }
+        
+        .log.active { display: block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-badge">49</div>
+                <div>
+                    <h1>RADAR DE LICITAÇÕES</h1>
+                    <div class="subtitle">49 Educação · Startup University</div>
+                </div>
+            </div>
+            <button class="btn btn-secondary" onclick="toggleConfig()">⚙ Configurar Portais</button>
+        </header>
+
+        <div class="config-panel" id="configPanel">
+            <h3>⚙ Portais Monitorados</h3>
+            <div id="portalList"></div>
+        </div>
+
+        <div class="main-action">
+            <button class="btn btn-primary" id="btnScan" onclick="scanPortals()">
+                🎯 VARRER PORTAIS AGORA
+            </button>
+        </div>
+
+        <div class="log" id="log"></div>
+
+        <div class="stats" id="stats">
+            <div class="stat-card">
+                <span class="stat-number" id="totalFound">0</span>
+                <span class="stat-label">Encontrados</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="highRelevance">0</span>
+                <span class="stat-label">Alta Relevância</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="urgentDays">0</span>
+                <span class="stat-label">Prazo ≤ 7 dias</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="closingSoon">0</span>
+                <span class="stat-label">Encerrando</span>
+            </div>
+        </div>
+
+        <div class="filters" id="filters">
+            <button class="filter-btn active" onclick="setFilter('all', this)">TODOS</button>
+            <button class="filter-btn" onclick="setFilter('high', this)">ALTA RELEVÂNCIA</button>
+            <button class="filter-btn" onclick="setFilter('urgent', this)">⚠️ URGENTES (≤7 DIAS)</button>
+            <button class="filter-btn" onclick="setFilter('closing', this)">ENCERRANDO</button>
+        </div>
+
+        <div class="results" id="results"></div>
+
+        <div class="empty-state" id="emptyState">
+            <h2>🎯 Pronto para vasculhar os portais</h2>
+            <p>Clique em <strong>VARRER PORTAIS AGORA</strong> para encontrar licitações abertas</p>
+        </div>
+
+        <footer>
+            <p><strong>49EDUCAÇÃO</strong> · RADAR DE LICITAÇÕES</p>
+            <p>Powered by Firecrawl + Vercel</p>
+        </footer>
+    </div>
+
+    <script>
+        // Variáveis globais
+        let portais = [
+            { id: 1, nome: "PNCP", url: "pncp.gov.br", ativo: true },
+            { id: 2, nome: "ComprasNet", url: "comprasnet.gov.br", ativo: true },
+            { id: 3, nome: "BEC/SP", url: "bec.sp.gov.br", ativo: true }
+        ];
+        let licitacoes = [];
+        let currentFilter = 'all';
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            renderPortais();
+        });
+
+        // Função para configurar portais
+        function toggleConfig() {
+            var panel = document.getElementById('configPanel');
+            if (panel.style.display === 'block') {
+                panel.style.display = 'none';
+            } else {
+                panel.style.display = 'block';
+            }
+        }
+
+        // Renderizar portais
+        function renderPortais() {
+            var list = document.getElementById('portalList');
+            var html = '';
+            for (var i = 0; i < portais.length; i++) {
+                var p = portais[i];
+                html += '<div style="padding: 10px; background: #1E1E21; margin: 5px 0; border-radius: 6px;">';
+                html += '<strong>' + p.nome + '</strong> - ' + p.url;
+                html += ' <label><input type="checkbox" ' + (p.ativo ? 'checked' : '') + ' onchange="togglePortal(' + p.id + ')"> Ativo</label>';
+                html += '</div>';
+            }
+            list.innerHTML = html;
+        }
+
+        // Toggle portal
+        function togglePortal(id) {
+            for (var i = 0; i < portais.length; i++) {
+                if (portais[i].id === id) {
+                    portais[i].ativo = !portais[i].ativo;
+                    break;
+                }
+            }
+        }
+
+        // Função principal de busca
+        function scanPortals() {
+            var btn = document.getElementById('btnScan');
+            var logDiv = document.getElementById('log');
+            var resultsDiv = document.getElementById('results');
+            var emptyState = document.getElementById('emptyState');
+            var statsDiv = document.getElementById('stats');
+            var filtersDiv = document.getElementById('filters');
+            
+            btn.disabled = true;
+            btn.innerHTML = '🔍 BUSCANDO...';
+            logDiv.classList.add('active');
+            logDiv.innerHTML = '<div style="color: #FF4D00;">[1/2] Iniciando busca...</div>';
+            emptyState.style.display = 'none';
+            
+            // Chamar API
+            fetch('/api/scan')
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(data) {
+                    logDiv.innerHTML += '<div style="color: #00C853;">[2/2] ✓ Busca concluída!</div>';
+                    
+                    licitacoes = data.licitacoes || [];
+                    
+                    if (licitacoes.length === 0) {
+                        resultsDiv.classList.remove('active');
+                        emptyState.style.display = 'block';
+                        emptyState.innerHTML = '<h2>📭 Nenhuma licitação encontrada</h2><p>Tente novamente mais tarde</p>';
+                    } else {
+                        updateStats();
+                        renderResults();
+                        statsDiv.classList.add('active');
+                        filtersDiv.classList.add('active');
+                        resultsDiv.classList.add('active');
+                    }
+                })
+                .catch(function(error) {
+                    console.error('Erro:', error);
+                    logDiv.innerHTML += '<div style="color: #FF4040;">❌ Erro: ' + error.message + '</div>';
+                })
+                .finally(function() {
+                    btn.disabled = false;
+                    btn.innerHTML = '🎯 VARRER PORTAIS AGORA';
+                });
+        }
+
+        // Atualizar estatísticas
+        function updateStats() {
+            document.getElementById('totalFound').textContent = licitacoes.length;
+            
+            var highCount = 0;
+            var urgentCount = 0;
+            var closingCount = 0;
+            
+            for (var i = 0; i < licitacoes.length; i++) {
+                var l = licitacoes[i];
+                if (l.relevancia === 'ALTA') highCount++;
+                if (l.status === 'ENCERRANDO') closingCount++;
+                if (l.diasRestantes && l.diasRestantes <= 7) urgentCount++;
+            }
+            
+            document.getElementById('highRelevance').textContent = highCount;
+            document.getElementById('urgentDays').textContent = urgentCount;
+            document.getElementById('closingSoon').textContent = closingCount;
+        }
+
+        // Renderizar resultados
+        function renderResults() {
+            var container = document.getElementById('results');
+            var html = '';
+            
+            var filtered = licitacoes;
+            if (currentFilter === 'high') {
+                filtered = [];
+                for (var i = 0; i < licitacoes.length; i++) {
+                    if (licitacoes[i].relevancia === 'ALTA') {
+                        filtered.push(licitacoes[i]);
+                    }
+                }
+            }
+            
+            if (filtered.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 40px; color: #666;">Nenhuma licitação para este filtro</div>';
+                return;
+            }
+            
+            for (var i = 0; i < filtered.length; i++) {
+                var l = filtered[i];
+                html += '<div style="background: #161618; border: 1px solid #2A2A2E; border-radius: 12px; padding: 20px;">';
+                html += '<h3 style="color: #FF4D00; margin-bottom: 10px;">' + (l.titulo || 'Licitação sem título') + '</h3>';
+                html += '<p><strong>Órgão:</strong> ' + (l.orgao || 'Não informado') + '</p>';
+                html += '<p><strong>Portal:</strong> ' + (l.portal || 'Não informado') + '</p>';
+                if (l.objeto) {
+                    html += '<p style="margin: 15px 0;"><strong>Objeto:</strong><br>' + l.objeto + '</p>';
+                }
+                if (l.link) {
+                    html += '<a href="' + l.link + '" target="_blank" style="display: inline-block; background: #FF4D00; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; margin-top: 10px;">Ver Edital →</a>';
+                }
+                html += '</div>';
+            }
+            
+            container.innerHTML = html;
+        }
+
+        // Set filter
+        function setFilter(filter, btn) {
+            currentFilter = filter;
+            
+            var buttons = document.querySelectorAll('.filter-btn');
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('active');
+            }
+            btn.classList.add('active');
+            
+            renderResults();
+        }
+    </script>
+</body>
+</html>
