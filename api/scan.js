@@ -18,7 +18,7 @@ export default async function handler(req, res) {
         objeto: "Programa Mulheres+Tec 5ª Edição - Fomento à participação feminina em projetos de ciência, tecnologia e inovação em Santa Catarina",
         palavrasChave: ["mulheres", "tecnologia", "inovação", "ciência", "educação", "capacitação"],
         relevancia: "ALTA",
-        justificativaRelevancia: "Este edital da FAPESC busca promover a participação feminina em tecnologia e inovação. A 49 Educação, com NPS +94 e reconhecimento TOP 1 Educação pela Associação Brasileira de Startups, possui vasta experiência em capacitação em inovação, tendo impactado +1.200 startups catarinenses desde 2023 através da metodologia Startup University. A empresa já executou programas similares como o Programa Nascer (800 startups) e Jornada Startups (600 startups) via FAPESC e SEBRAE/SC, demonstrando capacidade técnica para apoiar este chamamento com excelência.",
+        justificativaRelevancia: "Este edital da FAPESC busca promover a participação feminina em tecnologia e inovação. A 49 Educação, com NPS +94 e reconhecimento TOP 1 Educação pela Associação Brasileira de Startups, possui vasta experiência em capacitação em inovação, tendo impactado +1.200 startups catarinenses desde 2023 através da metodologia Startup University. A empresa já executou programas similares como o Programa Nascer (800 startups) e Jornada Startups (600 startups) via FAPESC e SEBRAE/SC.",
         link: "https://fapesc.sc.gov.br/edital-de-chamada-publica-fapesc-n-o-14-2026-programa-mulherestec-5a-edicao/",
         status: "ABERTO",
         diasRestantes: 25
@@ -36,7 +36,7 @@ export default async function handler(req, res) {
         objeto: "Programa Centelha 3 SC - Apoio à geração de empreendimentos inovadores, capacitação de empreendedores e desenvolvimento de ideias de negócio inovadoras em Santa Catarina",
         palavrasChave: ["empreendedorismo", "inovação", "startups", "capacitação", "ideias de negócio"],
         relevancia: "ALTA",
-        justificativaRelevancia: "Programa Centelha é focado em pré-incubação e capacitação de empreendedores - core business da 49 Educação. A empresa criou a primeira Startup University do Brasil e já capacitou +5.000 startups através da metodologia Startup University, registrada na Biblioteca Nacional (Livro nº 888.433). Com cases comprovados como Taskdo (exit em 2024) e +R$ 1 bilhão em valuation gerado, a 49 Educação possui expertise em programas de pré-incubação, tendo executado o Programa Nascer em 15 cidades catarinenses (800 startups impactadas).",
+        justificativaRelevancia: "Programa Centelha é focado em pré-incubação e capacitação de empreendedores - core business da 49 Educação. A empresa criou a primeira Startup University do Brasil e já capacitou +5.000 startups através da metodologia Startup University, registrada na Biblioteca Nacional (Livro nº 888.433). Com cases comprovados como Taskdo (exit em 2024) e +R$ 1 bilhão em valuation gerado.",
         link: "https://fapesc.sc.gov.br/edital-n-o-12-2026-programa-centelha-3-sc/",
         status: "ABERTO",
         diasRestantes: 40
@@ -54,7 +54,7 @@ export default async function handler(req, res) {
         objeto: "Credenciamento e Recredenciamento de Núcleos de Inovação Tecnológica de Santa Catarina - NITs",
         palavrasChave: ["inovação", "tecnologia", "gestão", "ecossistema", "capacitação"],
         relevancia: "ALTA",
-        justificativaRelevancia: "Este edital busca credenciar núcleos de inovação tecnológica. A 49 Educação possui vasta experiência em gestão de ecossistemas de inovação, tendo executado 1.200 horas de consultoria para o Sebrae SC em Gestão de Ecossistemas de Inovação e Plataformas Digitais (2023). A empresa também desenvolveu a plataforma Nascer Digital e possui CRM educacional integrado, demonstrando capacidade técnica para operar NITs e fortalecer o ecossistema catarinense de inovação.",
+        justificativaRelevancia: "Este edital busca credenciar núcleos de inovação tecnológica. A 49 Educação possui vasta experiência em gestão de ecossistemas de inovação, tendo executado 1.200 horas de consultoria para o Sebrae SC em Gestão de Ecossistemas de Inovação e Plataformas Digitais (2023).",
         link: "https://fapesc.sc.gov.br/edital-de-chamada-publica-fapesc-n-o-11-2026-credenciamento-e-recredenciamento-de-nucleos-de-inovacao-tecnologica-de-santa-catarina/",
         status: "ABERTO",
         diasRestantes: 260
@@ -72,7 +72,7 @@ export default async function handler(req, res) {
         objeto: "Contratação de empresa especializada para prestação de serviços de treinamento em vendas para startups, com foco em receitas previsíveis, estruturação de processos comerciais e growth hacking",
         palavrasChave: ["vendas", "startups", "treinamento", "growth", "capacitação"],
         relevancia: "ALTA",
-        justificativaRelevancia: "Este edital do SEBRAE busca empresa especializada em treinamento de vendas para startups. A 49 Educação executou o programa Start Primeiras Vendas 2025/2026 para 150 startups e o programa Jornada Startups para +600 startups via ACATE. A empresa aplica metodologias de SPIN Selling, BANT, Growth Hacking e Playbook de Vendas, com resultados comprovados de aumento de faturamento nas startups atendidas. Leandro Piazza, CEO, é considerado Top 3 Mentor de Startups no Brasil.",
+        justificativaRelevancia: "Este edital do SEBRAE busca empresa especializada em treinamento de vendas para startups. A 49 Educação executou o programa Start Primeiras Vendas 2025/2026 para 150 startups e o programa Jornada Startups para +600 startups via ACATE. A empresa aplica metodologias de SPIN Selling, BANT, Growth Hacking e Playbook de Vendas.",
         link: "https://www.scf3.sebrae.com.br/PortalCf/Licitacoes",
         status: "ENCERRANDO",
         diasRestantes: 5
@@ -90,7 +90,7 @@ export default async function handler(req, res) {
         objeto: "Seleção de organização para implementação de programa de aceleração de startups industriais de base tecnológica em Santa Catarina",
         palavrasChave: ["aceleração", "startups", "indústria", "tecnologia", "inovação"],
         relevancia: "ALTA",
-        justificativaRelevancia: "Chamamento para aceleração de startups industriais se alinha perfeitamente com a expertise da 49 Educação. A empresa já acelerou empresas como Empregga Tecnologia, Realize Educação, Meliva.ia e outras 20+ startups nas fases de Validação, Operação e Tração. Com metodologia Startup University registrada na Biblioteca Nacional e +5.000 startups capacitadas, a empresa está apta a atender este chamamento com excelência.",
+        justificativaRelevancia: "Chamamento para aceleração de startups industriais se alinha perfeitamente com a expertise da 49 Educação. A empresa já acelerou empresas como Empregga Tecnologia, Realize Educação, Meliva.ia e outras 20+ startups nas fases de Validação, Operação e Tração.",
         link: "https://portaldecompras.fiesc.com.br/Portal/Mural.aspx",
         status: "ABERTO",
         diasRestantes: 18
