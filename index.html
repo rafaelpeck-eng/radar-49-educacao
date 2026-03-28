@@ -45,6 +45,7 @@
         .logo-img {
             height: 50px;
             width: auto;
+            border-radius: 8px;
         }
         
         .logo h1 {
@@ -394,66 +395,40 @@
 
         const empresa = {
             nome: "49 Educação",
-            cnpj: "35.611.694/0001-88",
-            sede: "Florianópolis, SC",
-            fundador: "Leandro Piazza dos Santos",
-            metodologia: "Startup University",
-            livroRegistrado: "Startup University: O Playbook das Startups em First Stage (Biblioteca Nacional nº 888.433)",
-            startupsCapacitadas: "+5.000",
-            startupsCatarinenses: "+1.200 desde 2023",
-            valuationGerado: "+R$ 1 bilhão",
-            nps: "+94",
-            premio: "TOP 1 Educação (ABStartups)",
             servicos: [
                 "educação empreendedora",
                 "aceleração de startups",
                 "capacitação profissional em inovação",
-                "mentorias individuais e coletivas",
-                "workshops de inteligência artificial",
+                "mentorias",
+                "workshops de IA",
                 "formação de founders",
-                "desenvolvimento de ecossistemas de startups",
-                "programas de inovação corporativa",
-                "eventos de empreendedorismo"
+                "ecossistemas de startups",
+                "inovação corporativa"
             ],
             cases: [
-                { nome: "Taskdo", destaque: "Exit para Invent Software em 2024" },
-                { nome: "Empregga Tecnologia", destaque: "Validação + Fundos de Investimento" },
-                { nome: "Realize Educação", destaque: "Validação + Operação" },
-                { nome: "Meliva.ia", destaque: "Operação" },
-                { nome: "Certificafé", destaque: "Operação" },
-                { nome: "Societário Digital", destaque: "Operação" },
-                { nome: "Reuso Recicla+", destaque: "Operação" },
-                { nome: "Serodonto", destaque: "Operação" },
-                { nome: "ArchTechTour", destaque: "Validação" },
-                { nome: "Flash Menu", destaque: "Operação" },
-                { nome: "Gerencit", destaque: "Operação" },
-                { nome: "Captei", destaque: "Operação" },
-                { nome: "Ottimizza", destaque: "Tração e Escala" },
-                { nome: "Fifty Fifty Drinks", destaque: "Gestão da Inovação" },
-                { nome: "Éleme", destaque: "Growth + Fundos de Investimento" },
-                { nome: "Instituto Visão", destaque: "Empreendedorismo Social (+15% retenção escolar)" },
-                { nome: "Prototipando a Quebrada", destaque: "Empreendedorismo Social" }
+                "Empregga Tecnologia",
+                "Realize Educação",
+                "Meliva.ia",
+                "Certificafé",
+                "Societário Digital",
+                "Reuso Recicla+",
+                "Serodonto",
+                "ArchTechTour",
+                "Flash Menu",
+                "Gerencit",
+                "Captei",
+                "Ottimizza",
+                "Fifty Fifty Drinks",
+                "Éleme",
+                "Instituto Visão",
+                "Prototipando a Quebrada"
             ],
-            programas: [
-                { nome: "Startup University", startups: "+5.000", periodo: "2020-2025" },
-                { nome: "Jornada Startups", startups: "+600", parceiro: "ACATE, SEBRAE/SC", periodo: "2022-2025" },
-                { nome: "Programa Nascer", startups: "+800", parceiro: "FAPESC, SEBRAE/SC", periodo: "2020-2024" },
-                { nome: "BRDE Labs SC", startups: "+120", parceiro: "BRDE, SEBRAE", periodo: "2023-2025" },
-                { nome: "Prêmio Sebrae Startups", startups: "+1.000", parceiro: "SEBRAE Nacional", periodo: "2022-2024" },
-                { nome: "Start Primeiras Vendas", startups: "150", periodo: "2025" }
-            ],
-            parceiros: [
-                "SEBRAE/SC",
-                "FAPESC",
-                "ACATE",
-                "BRDE",
-                "SCTI"
-            ],
-            reconhecimentos: [
-                "Moção Oficial ALESC (RQS/1255/2025) - Primeira Startup University do Brasil",
-                "TOP 1 Educação - Startup Awards",
-                "Top 3 Mentor de Startups no Brasil",
-                "Destaque na mídia: O Globo, Terra, Exame, Carta Capital, Poder 360"
+            diferenciais: [
+                "NPS +94",
+                "TOP 1 Educação (ABStartups)",
+                "+5.000 startups capacitadas",
+                "+R$ 1 bilhão em valuation gerado",
+                "Metodologia Startup University"
             ]
         };
 
@@ -584,7 +559,7 @@
             
             var justificativa = 'Este ' + (licitacao.modalidade || 'edital') + ' busca ' + (licitacao.objeto ? 'serviços relacionados a ' + licitacao.objeto.substring(0, 80) : 'soluções em educação e inovação') + '. ';
             
-            justificativa += 'A ' + empresa.nome + ', com ' + empresa.nps + ' e reconhecimento ' + empresa.premio + ', possui experiência comprovada através da metodologia ' + empresa.metodologia + ' (livro registrado na Biblioteca Nacional nº 888.433). ';
+            justificativa += 'A ' + empresa.nome + ', com ' + empresa.diferenciais[0] + ' e reconhecimento ' + empresa.diferenciais[1] + ', possui experiência comprovada através da metodologia ' + empresa.metodologia + ' (livro registrado na Biblioteca Nacional nº 888.433). ';
             
             justificativa += 'A empresa já capacitou ' + empresa.startupsCapacitadas + ' startups no Brasil, sendo ' + empresa.startupsCatarinenses + ' em Santa Catarina desde 2023, através de programas como ' + programaAleatorio.nome + ' (' + programaAleatorio.startups + ' startups impactadas). ';
             
