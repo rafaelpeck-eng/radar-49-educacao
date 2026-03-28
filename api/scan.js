@@ -4,9 +4,6 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { portais } = req.body || {};
-    
-    // Dados mockados com links diretos para os principais editais
     const licitacoesExemplo = [
       {
         id: 1,
@@ -22,7 +19,7 @@ export default async function handler(req, res) {
         palavrasChave: ["mulheres", "tecnologia", "inovação", "ciência", "educação", "capacitação"],
         relevancia: "ALTA",
         justificativaRelevancia: "Este edital da FAPESC busca promover a participação feminina em tecnologia e inovação. A 49 Educação, com NPS +94 e reconhecimento TOP 1 Educação pela Associação Brasileira de Startups, possui vasta experiência em capacitação em inovação, tendo impactado +1.200 startups catarinenses desde 2023 através da metodologia Startup University. A empresa já executou programas similares como o Programa Nascer (800 startups) e Jornada Startups (600 startups) via FAPESC e SEBRAE/SC, demonstrando capacidade técnica para apoiar este chamamento com excelência.",
-        link: "https://fapesc.sc.gov.br/chamadas-abertas/edital-de-chamada-publica-fapesc-n-14-2026-programa-mulheres-tec-5a-edicao/",
+        link: "https://fapesc.sc.gov.br/edital-de-chamada-publica-fapesc-n-o-14-2026-programa-mulherestec-5a-edicao/",
         status: "ABERTO",
         diasRestantes: 25
       },
@@ -40,7 +37,7 @@ export default async function handler(req, res) {
         palavrasChave: ["empreendedorismo", "inovação", "startups", "capacitação", "ideias de negócio"],
         relevancia: "ALTA",
         justificativaRelevancia: "Programa Centelha é focado em pré-incubação e capacitação de empreendedores - core business da 49 Educação. A empresa criou a primeira Startup University do Brasil e já capacitou +5.000 startups através da metodologia Startup University, registrada na Biblioteca Nacional (Livro nº 888.433). Com cases comprovados como Taskdo (exit em 2024) e +R$ 1 bilhão em valuation gerado, a 49 Educação possui expertise em programas de pré-incubação, tendo executado o Programa Nascer em 15 cidades catarinenses (800 startups impactadas).",
-        link: "https://fapesc.sc.gov.br/chamadas-abertas/edital-n-12-2026-programa-centelha-3-sc/",
+        link: "https://fapesc.sc.gov.br/edital-n-o-12-2026-programa-centelha-3-sc/",
         status: "ABERTO",
         diasRestantes: 40
       },
@@ -58,7 +55,7 @@ export default async function handler(req, res) {
         palavrasChave: ["inovação", "tecnologia", "gestão", "ecossistema", "capacitação"],
         relevancia: "ALTA",
         justificativaRelevancia: "Este edital busca credenciar núcleos de inovação tecnológica. A 49 Educação possui vasta experiência em gestão de ecossistemas de inovação, tendo executado 1.200 horas de consultoria para o Sebrae SC em Gestão de Ecossistemas de Inovação e Plataformas Digitais (2023). A empresa também desenvolveu a plataforma Nascer Digital e possui CRM educacional integrado, demonstrando capacidade técnica para operar NITs e fortalecer o ecossistema catarinense de inovação.",
-        link: "https://fapesc.sc.gov.br/chamadas-abertas/edital-de-chamada-publica-fapesc-n-11-2026-credenciamento-e-recredenciamento-de-nucleos-de-inovacao-tecnologica-de-santa-catarina/",
+        link: "https://fapesc.sc.gov.br/edital-de-chamada-publica-fapesc-n-o-11-2026-credenciamento-e-recredenciamento-de-nucleos-de-inovacao-tecnologica-de-santa-catarina/",
         status: "ABERTO",
         diasRestantes: 260
       },
