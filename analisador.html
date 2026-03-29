@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisador de Editais · 49 Educação</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --fundo: #0E0E0F;
+            --cards: #161618;
+            --elementos: #1E1E21;
+            --borda: #2A2A2E;
+            --texto: #EFEFEF;
+            --texto2: #666666;
+            --laranja: #FF4D00;
+            --verde: #00C853;
+            --vermelho: #FF4040;
+        }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: var(--fundo);
+            color: var(--texto);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        
+        header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--borda);
+            margin-bottom: 40px;
+        }
+        
+        .logo-badge {
+            background: var(--laranja);
+            color: white;
+            font-weight: 700;
+            font-size: 1.5rem;
+            padding: 10px 15px;
+            border-radius: 8px;
+        }
+        
+        h1 { font-size: 1.8rem; letter-spacing: 2px; }
+        
+        .upload-section {
+            background: var(--cards);
+            border: 2px dashed var(--borda);
+            border-radius: 12px;
+            padding: 60px 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            transition: all 0.3s;
+        }
+        
+        .upload-section:hover {
+            border-color: var(--laranja);
+            background: var(--elementos);
+        }
+        
+        .upload-section.dragover {
+            border-color: var(--laranja);
+            background: rgba(255, 77, 0, 0.1);
+        }
+        
+        .upload-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        
+        .btn-primary {
+            background: var(--laranja);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            background: #FF6A2A;
+            transform: scale(1.05);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .file-info {
+            margin-top: 20px;
+            padding: 15px;
+            background: var(--elementos);
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .file-info.active { display: block; }
+        
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            display: none;
+        }
+        
+        .loading.active { display: block; }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--borda);
+            border-top-color: var(--laranja);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .results {
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .results.active { display: flex; }
+        
+        .result-card {
+            background: var(--cards);
+            border: 1px solid var(--borda);
+            border-radius: 12px;
+            padding: 25px;
+        }
+        
+        .result-card.highlight {
+            border-color: var(--laranja);
+            background: rgba(255, 77, 0, 0.05);
+        }
+        
+        .result-card.success {
+            border-color: var(--verde);
+            background: rgba(0, 200, 83, 0.05);
+        }
+        
+        .result-card.warning {
+            border-color: var(--vermelho);
+            background: rgba(255, 64, 64, 0.05);
+        }
+        
+        .result-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--laranja);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .viability-score {
+            font-size: 3rem;
+            font-weight: 700;
+            text-align: center;
+            padding: 30px;
+            background: var(--elementos);
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        
+        .viability-score.high { color: var(--verde); }
+        .viability-score.medium { color: #FFA500; }
+        .viability-score.low { color: var(--vermelho); }
+        
+        .checklist {
+            list-style: none;
+            margin: 15px 0;
+        }
+        
+        .checklist li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--borda);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .checklist li:last-child { border-bottom: none; }
+        
+        .checklist .check { color: var(--verde); }
+        .checklist .cross { color: var(--vermelho); }
+        
+        .proposta-box {
+            background: var(--elementos);
+            border: 1px solid var(--borda);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+        
+        .btn-copy {
+            background: var(--laranja);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        .btn-copy:hover {
+            background: #FF6A2A;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: var(--texto2);
+            text-decoration: none;
+        }
+        
+        .back-link:hover {
+            color: var(--laranja);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-badge">49</div>
+            <div>
+                <h1>ANALISADOR DE EDITAIS</h1>
+                <div style="color: var(--laranja);">49 Educação · Startup University</div>
+            </div>
+        </header>
+
+        <!-- UPLOAD SECTION -->
+        <div class="upload-section" id="uploadSection">
+            <div class="upload-icon">📄</div>
+            <h2 style="margin-bottom: 10px;">Upload do Edital (PDF)</h2>
+            <p style="color: var(--texto2); margin-bottom: 20px;">
+                Arraste o arquivo do edital ou clique para selecionar
+            </p>
+            <input type="file" id="fileInput" accept=".pdf" style="display: none;">
+            <button class="btn-primary" onclick="document.getElementById('fileInput').click()">
+                📁 Selecionar PDF
+            </button>
+            <div class="file-info" id="fileInfo"></div>
+            <button class="btn-primary" id="btnAnalyze" onclick="analyzeEdital()" style="display: none;">
+                🤖 ANALISAR COM IA
+            </button>
+        </div>
+
+        <!-- LOADING -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <h3 style="margin-bottom: 10px;">Analisando edital com IA...</h3>
+            <p style="color: var(--texto2);">Isso pode levar até 2 minutos</p>
+        </div>
+
+        <!-- RESULTS -->
+        <div class="results" id="results">
+            <!-- VIABILIDADE -->
+            <div class="result-card highlight">
+                <h3 class="result-title">🎯 Viabilidade de Participação</h3>
+                <div class="viability-score" id="viabilityScore">--%</div>
+                <p id="viabilityText" style="text-align: center; color: var(--texto2);"></p>
+            </div>
+
+            <!-- DOCUMENTOS QUE TEMOS -->
+            <div class="result-card success">
+                <h3 class="result-title">✅ Documentos que a 49 Educação JÁ TEM</h3>
+                <ul class="checklist" id="documentosTem"></ul>
+            </div>
+
+            <!-- DOCUMENTOS QUE FALTAM -->
+            <div class="result-card warning">
+                <h3 class="result-title">⚠️ Documentos que FALTAM</h3>
+                <ul class="checklist" id="documentosFaltam"></ul>
+            </div>
+
+            <!-- MINUTA DE PROPOSTA -->
+            <div class="result-card">
+                <h3 class="result-title">📝 Minuta de Proposta Técnica</h3>
+                <div class="proposta-box" id="propostaText"></div>
+                <button class="btn-copy" onclick="copiarProposta()">📋 Copiar Proposta</button>
+            </div>
+
+            <!-- RESUMO DO EDITAL -->
+            <div class="result-card">
+                <h3 class="result-title">📋 Resumo do Edital</h3>
+                <div id="editalResumo"></div>
+            </div>
+        </div>
+
+        <a href="index.html" class="back-link">← Voltar ao Radar de Licitações</a>
+    </div>
+
+    <script>
+        let selectedFile = null;
+
+        // Drag and drop
+        const uploadSection = document.getElementById('uploadSection');
+        
+        uploadSection.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadSection.classList.add('dragover');
+        });
+
+        uploadSection.addEventListener('dragleave', () => {
+            uploadSection.classList.remove('dragover');
+        });
+
+        uploadSection.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadSection.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0 && files[0].type === 'application/pdf') {
+                handleFile(files[0]);
+            }
+        });
+
+        document.getElementById('fileInput').addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            selectedFile = file;
+            const fileInfo = document.getElementById('fileInfo');
+            const btnAnalyze = document.getElementById('btnAnalyze');
+            
+            fileInfo.innerHTML = `
+                <strong>📄 ${file.name}</strong><br>
+                <small style="color: var(--texto2);">${(file.size / 1024 / 1024).toFixed(2)} MB</small>
+            `;
+            fileInfo.classList.add('active');
+            btnAnalyze.style.display = 'inline-block';
+        }
+
+        async function analyzeEdital() {
+            if (!selectedFile) return;
+
+            // Show loading
+            document.getElementById('uploadSection').style.display = 'none';
+            document.getElementById('loading').classList.add('active');
+            document.getElementById('results').classList.remove('active');
+
+            try {
+                // Convert file to base64
+                const base64 = await fileToBase64(selectedFile);
+
+                // Call API
+                const response = await fetch('/api/analyze-edital', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        pdfBase64: base64,
+                        fileName: selectedFile.name
+                    })
+                });
+
+                const data = await response.json();
+
+                // Show results
+                document.getElementById('loading').classList.remove('active');
+                document.getElementById('results').classList.add('active');
+
+                // Populate results
+                populateResults(data);
+
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao analisar edital: ' + error.message);
+                document.getElementById('loading').classList.remove('active');
+                document.getElementById('uploadSection').style.display = 'block';
+            }
+        }
+
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result.split(',')[1]);
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        function populateResults(data) {
+            // Viabilidade
+            const scoreEl = document.getElementById('viabilityScore');
+            const score = data.viabilidade || 0;
+            scoreEl.textContent = score + '%';
+            scoreEl.className = 'viability-score ' + (score >= 70 ? 'high' : score >= 40 ? 'medium' : 'low');
+            
+            document.getElementById('viabilityText').textContent = 
+                score >= 70 ? '✅ ALTAMENTE RECOMENDADO PARTICIPAR' :
+                score >= 40 ? '⚠️ PARTICIPAR COM RESSALVAS' :
+                '❌ NÃO RECOMENDADO PARTICIPAR';
+
+            // Documentos que tem
+            const temList = document.getElementById('documentosTem');
+            temList.innerHTML = (data.documentosTem || []).map(doc => 
+                `<li><span class="check">✓</span> ${doc}</li>`
+            ).join('');
+
+            // Documentos que faltam
+            const faltamList = document.getElementById('documentosFaltam');
+            faltamList.innerHTML = (data.documentosFaltam || []).map(doc => 
+                `<li><span class="cross">✗</span> ${doc}</li>`
+            ).join('');
+
+            // Proposta
+            document.getElementById('propostaText').textContent = data.proposta || 'Nenhuma proposta gerada';
+
+            // Resumo do edital
+            document.getElementById('editalResumo').innerHTML = `
+                <p><strong>Objeto:</strong> ${data.objeto || 'Não identificado'}</p>
+                <p><strong>Valor:</strong> ${data.valor || 'Não informado'}</p>
+                <p><strong>Prazo:</strong> ${data.prazo || 'Não informado'}</p>
+                <p><strong>Órgão:</strong> ${data.orgao || 'Não informado'}</p>
+            `;
+        }
+
+        function copiarProposta() {
+            const texto = document.getElementById('propostaText').textContent;
+            navigator.clipboard.writeText(texto).then(() => {
+                alert('✅ Proposta copiada para a área de transferência!');
+            });
+        }
+    </script>
+</body>
+</html>
