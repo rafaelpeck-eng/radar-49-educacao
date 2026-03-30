@@ -21,7 +21,7 @@ export default async function handler(req, res) {
 Você é um especialista em licitações públicas brasileiras e vai analisar um edital para a empresa 49 Educação LTDA.
 
 ================================================================================
-CONHECIMENTO COMPLETO DA 49 EDUCAÇÃO (USE ESTAS INFORMAÇÕES NA ANÁLISE):
+CONHECIMENTO COMPLETO DA 49 EDUCAÇÃO:
 ================================================================================
 
 DADOS DA EMPRESA:
