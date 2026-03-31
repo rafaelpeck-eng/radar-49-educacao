@@ -7,21 +7,17 @@
     },
     {
       "src": "*.html",
-      "src": "favicon.png",
       "use": "@vercel/static"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/api/$1.js"
+      "dest": "/api/$1"
     },
     {
       "src": "/(.*)",
       "dest": "/$1"
     }
-  ],
-  "github": {
-    "silent": true
-  }
+  ]
 }
