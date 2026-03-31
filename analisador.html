@@ -60,13 +60,13 @@
             padding: 25px;
             margin-bottom: 20px;
         }
-        .checklist { list-style: none; margin: 15px 0; }
+        .checklist { list-style: none; }
         .checklist li {
             padding: 10px 0;
             border-bottom: 1px solid #2A2A2E;
         }
-        .check { color: #00C853; }
-        .cross { color: #FF4040; }
+        .check { color: #00C853; margin-right: 10px; }
+        .cross { color: #FF4040; margin-right: 10px; }
         .proposta-box {
             background: #1E1E21;
             padding: 20px;
@@ -75,6 +75,7 @@
             overflow-y: auto;
             white-space: pre-wrap;
             margin: 20px 0;
+            font-family: monospace;
         }
         .btn-copy {
             background: #FF4D00;
@@ -90,6 +91,12 @@
             margin-top: 30px;
             display: inline-block;
         }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            display: none;
+        }
+        .loading.active { display: block; }
     </style>
 </head>
 <body>
@@ -102,9 +109,9 @@
             </div>
         </header>
 
-        <div class="upload-section">
+        <div class="upload-section" id="uploadSection">
             <h2>📄 Upload do Edital (PDF)</h2>
-            <p style="color: #666; margin: 20px 0;">Arraste o arquivo ou clique para selecionar</p>
+            <p style="color: #666; margin: 20px 0;">Selecione o arquivo PDF do edital</p>
             <input type="file" id="fileInput" accept=".pdf" style="display: none;">
             <button class="btn-primary" onclick="document.getElementById('fileInput').click()">
                 📁 Selecionar PDF
@@ -114,10 +121,15 @@
             </button>
         </div>
 
+        <div class="loading" id="loading">
+            <h3>Analisando edital com IA...</h3>
+            <p style="color: #666; margin-top: 10px;">Isso pode levar até 2 minutos</p>
+        </div>
+
         <div class="results" id="results">
             <div class="result-card">
-                <h3>🎯 Viabilidade</h3>
-                <div id="viability" style="font-size: 2rem; color: #FF4D00; text-align: center; margin: 20px 0;"></div>
+                <h3>🎯 Viabilidade de Participação</h3>
+                <div id="viability" style="font-size: 2rem; text-align: center; margin: 20px 0; color: #FF4D00;"></div>
             </div>
 
             <div class="result-card">
@@ -131,13 +143,13 @@
             </div>
 
             <div class="result-card">
-                <h3>📝 Minuta de Proposta</h3>
+                <h3>📝 Minuta de Proposta Técnica</h3>
                 <div class="proposta-box" id="propostaText"></div>
                 <button class="btn-copy" onclick="copiarProposta()">📋 Copiar Proposta</button>
             </div>
         </div>
 
-        <a href="index.html" class="back-link">← Voltar ao Radar</a>
+        <a href="index.html" class="back-link">← Voltar ao Radar de Licitações</a>
     </div>
 
     <script>
@@ -151,68 +163,71 @@
         });
 
         async function analyzeEdital() {
-            if (!selectedFile) return;
+            if (!selectedFile) {
+                alert('Selecione um arquivo PDF primeiro!');
+                return;
+            }
 
             document.getElementById('uploadSection').style.display = 'none';
+            document.getElementById('loading').classList.add('active');
             document.getElementById('results').classList.remove('active');
 
-            // Simulação para teste (remover quando API estiver pronta)
-            setTimeout(() => {
+            try {
+                // Converter PDF para base64
+                const base64 = await fileToBase64(selectedFile);
+
+                // Chamar API
+                const response = await fetch('/api/analyze-edital', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        pdfBase64: base64,
+                        fileName: selectedFile.name
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Erro na API: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                // Exibir resultados
+                document.getElementById('loading').classList.remove('active');
                 document.getElementById('results').classList.add('active');
-                document.getElementById('viability').textContent = '85%';
+
+                // Preencher dados
+                document.getElementById('viability').textContent = data.viabilidade + '%';
                 
-                document.getElementById('documentosTem').innerHTML = `
-                    <li><span class="check">✓</span> CNPJ ativo</li>
-                    <li><span class="check">✓</span> Contrato Social</li>
-                    <li><span class="check">✓</span> Atestados de capacidade técnica</li>
-                `;
+                document.getElementById('documentosTem').innerHTML = 
+                    data.documentosTem.map(doc => `<li><span class="check">✓</span>${doc}</li>`).join('');
                 
-                document.getElementById('documentosFaltam').innerHTML = `
-                    <li><span class="cross">✗</span> CND Federal</li>
-                    <li><span class="cross">✗</span> CND Estadual</li>
-                `;
+                document.getElementById('documentosFaltam').innerHTML = 
+                    data.documentosFaltam.map(doc => `<li><span class="cross">✗</span>${doc}</li>`).join('');
                 
-                document.getElementById('propostaText').textContent = `
-PROPOSTA TÉCNICA - 49 EDUCAÇÃO LTDA
+                document.getElementById('propostaText').textContent = data.proposta;
 
-CNPJ: 35.611.694/0001-88
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao analisar edital: ' + error.message);
+                document.getElementById('loading').classList.remove('active');
+                document.getElementById('uploadSection').style.display = 'block';
+            }
+        }
 
-1. APRESENTAÇÃO DA EMPRESA
-
-A 49 Educação LTDA, com NPS +94 e reconhecimento TOP 1 Educação pela Associação Brasileira de Startups, é a primeira Startup University do Brasil, com metodologia registrada na Biblioteca Nacional (Livro nº 888.433).
-
-2. EXPERIÊNCIA COMPROVADA
-
-+5.000 startups capacitadas
-+1.200 startups catarinenses impactadas desde 2023
-+R$ 1 bilhão em valuation gerado
-
-Cases de sucesso:
-- Taskdo (EXIT para Invent Software em 2024)
-- Empregga Tecnologia
-- Realize Educação
-- Instituto Visão (+15% retenção escolar)
-
-3. METODOLOGIA
-
-Utilizamos a metodologia Startup University, com foco em educação empreendedora, aceleração de startups e capacitação em inovação.
-
-4. EQUIPE TÉCNICA
-
-Leandro Piazza dos Santos - CEO e Mentor Top 3 do Brasil
-Ana Cláudia Plentz - Coordenadora Pedagógica
-
-5. RESULTADOS ESPERADOS
-
-Capacitação de empreendedores com foco em resultados práticos e mensuráveis.
-                `;
-            }, 1000);
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result.split(',')[1]);
+                reader.onerror = error => reject(error);
+            });
         }
 
         function copiarProposta() {
             const texto = document.getElementById('propostaText').textContent;
             navigator.clipboard.writeText(texto).then(() => {
-                alert('✅ Proposta copiada!');
+                alert('✅ Proposta copiada para a área de transferência!');
             });
         }
     </script>
