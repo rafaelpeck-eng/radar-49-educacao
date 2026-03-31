@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Radar de Licitações 49 Educação",
   "dependencies": {
-    "@mendable/firecrawl-js": "^1.0.0"
+    "@mendable/firecrawl-js": "^1.0.0",
+    "@anthropic-ai/sdk": "^0.30.0"
   },
   "engines": {
     "node": ">=18.0.0"
