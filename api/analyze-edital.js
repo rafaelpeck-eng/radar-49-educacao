@@ -196,4 +196,4 @@ async function extractTextFromPDF(base64) {
   // Em produção, implementar com pdf-parse ou similar
   return 'PDF recebido. Conteúdo será analisado pelo Claude.';
 }
- 
+ // Deploy forçado - teste
